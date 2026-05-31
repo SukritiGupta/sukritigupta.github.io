@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- ============ SEO / META ============ -->
+<title>Sukriti Gupta — Ph.D. in Computer Science, IIT Delhi</title>
+<meta name="description" content="Sukriti Gupta is a Ph.D. student in Computer Science at IIT Delhi working on approximation algorithms, scheduling, and combinatorial optimization for communication networks. Advised by Prof. Amit Kumar and Prof. Naveen Garg." />
+<meta name="author" content="Sukriti Gupta" />
+<meta name="keywords" content="Sukriti Gupta, IIT Delhi, theoretical computer science, approximation algorithms, scheduling, combinatorial optimization, network broadcast, hose model, FSTTCS, Amit Kumar, Naveen Garg" />
+<link rel="canonical" href="https://sukritigupta.github.io/" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="profile" />
+<meta property="og:title" content="Sukriti Gupta — Ph.D. in Computer Science, IIT Delhi" />
+<meta property="og:description" content="Approximation algorithms, scheduling, and combinatorial optimization for communication networks." />
+<meta property="og:url" content="https://sukritigupta.github.io/" />
+<meta name="twitter:card" content="summary" />
+
+<!-- Favicon (inline monogram) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%237a1e2b'/><text x='50%25' y='54%25' font-family='Georgia,serif' font-size='30' fill='%23f8f5ef' text-anchor='middle' dominant-baseline='middle'>SG</text></svg>" />
+
+<!-- ============ FONTS ============ -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,400..500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<!-- ============ TAILWIND ============ -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          paper:   'var(--paper)',
+          surface: 'var(--surface)',
+          ink:     'var(--ink)',
+          'ink-soft': 'var(--ink-soft)',
+          accent:  'var(--accent)',
+          'accent-soft': 'var(--accent-soft)',
+          rule:    'var(--rule)',
+        },
+        fontFamily: {
+          display: ['Fraunces', 'serif'],
+          body:    ['Newsreader', 'Georgia', 'serif'],
+          mono:    ['"JetBrains Mono"', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  :root {
+    --paper:       #f7f3ea;
+    --surface:     #f1ebdd;
+    --ink:         #1f1b16;
+    --ink-soft:    #5d564c;
+    --accent:      #7a1e2b;
+    --accent-soft: #a8434f;
+    --rule:        #ddd3c0;
+    --grain:       0.035;
+  }
+  html.dark {
+    --paper:       #16130e;
+    --surface:     #201c15;
+    --ink:         #ece5d8;
+    --ink-soft:    #a59c8c;
+    --accent:      #d68a8f;
+    --accent-soft: #b3656c;
+    --rule:        #332e25;
+    --grain:       0.05;
+  }
+
+  body { background: var(--paper); color: var(--ink); }
+
+  /* paper grain overlay */
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    opacity: var(--grain);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* tracked label */
+  .eyebrow {
+    font-family: var(--font-mono, "JetBrains Mono");
+    letter-spacing: 0.22em; text-transform: uppercase; font-size: 0.66rem;
+  }
+
+  /* underline-on-hover links */
+  .link-u { position: relative; }
+  .link-u::after {
+    content: ""; position: absolute; left: 0; bottom: -2px; height: 1px; width: 100%;
+    background: currentColor; transform: scaleX(0); transform-origin: right;
+    transition: transform .35s cubic-bezier(.16,1,.3,1);
+  }
+  .link-u:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  /* reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* hero load stagger */
+  @keyframes riseIn { from { opacity:0; transform: translateY(26px); } to { opacity:1; transform:none; } }
+  .rise { opacity: 0; animation: riseIn .95s cubic-bezier(.16,1,.3,1) forwards; }
+
+  /* drop cap on bio */
+  .dropcap::first-letter {
+    font-family: var(--font-display, "Fraunces"); font-weight: 500;
+    float: left; font-size: 3.6rem; line-height: .82; padding: .1rem .55rem .1rem 0;
+    color: var(--accent);
+  }
+
+  ::selection { background: var(--accent); color: var(--paper); }
+
+  /* slow drift for hero graph nodes */
+  @keyframes drift { 0%,100%{transform:translate(0,0)} 50%{transform:translate(0,-7px)} }
+  .node { animation: drift 7s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .rise, .node { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+
+<!-- ============ STRUCTURED DATA ============ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sukriti Gupta",
+  "jobTitle": "Ph.D. Student in Computer Science and Engineering",
+  "affiliation": { "@type": "CollegeOrUniversity", "name": "Indian Institute of Technology Delhi" },
+  "alumniOf": "Indian Institute of Technology Delhi",
+  "email": "mailto:sukritigupta@gmail.com",
+  "url": "https://sukritigupta.github.io/",
+  "knowsAbout": ["Theoretical Computer Science","Approximation Algorithms","Scheduling","Combinatorial Optimization","Network Algorithms"],
+  "sameAs": ["https://www.linkedin.com/in/sukriti-gupta-iitd","https://github.com/SukritiGupta"]
+}
+</script>
+</head>
+
+<body class="font-body antialiased selection:bg-accent">
+<div class="relative z-[2]">
+
+<!-- ================= NAV ================= -->
+<header id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-500">
+  <nav class="mx-auto max-w-6xl px-6 sm:px-8 flex items-center justify-between h-16">
+    <a href="#top" class="font-display text-lg tracking-tight text-ink hover:text-accent transition-colors">
+      Sukriti&nbsp;Gupta
+    </a>
+    <div class="hidden md:flex items-center gap-7 text-sm text-ink-soft">
+      <a href="#about"    class="link-u hover:text-ink transition-colors">About</a>
+      <a href="#research" class="link-u hover:text-ink transition-colors">Research</a>
+      <a href="#publications" class="link-u hover:text-ink transition-colors">Publications</a>
+      <a href="#experience" class="link-u hover:text-ink transition-colors">Experience</a>
+      <a href="#teaching" class="link-u hover:text-ink transition-colors">Teaching</a>
+      <a href="#contact"  class="link-u hover:text-ink transition-colors">Contact</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="cv.pdf" class="hidden sm:inline-flex items-center gap-1.5 eyebrow border border-rule rounded-full px-3.5 py-1.5 text-ink hover:bg-accent hover:text-paper hover:border-accent transition-colors">
+        CV
+      </a>
+      <button id="themeToggle" aria-label="Toggle dark mode"
+        class="grid place-items-center h-9 w-9 rounded-full border border-rule text-ink hover:border-accent hover:text-accent transition-colors">
+        <svg class="h-4 w-4 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4.5"/><path stroke-linecap="round" d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+        <svg class="h-4 w-4 block dark:hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="h-px w-full bg-rule/70 origin-left scale-x-0 transition-transform duration-500" id="navrule"></div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section id="top" class="relative overflow-hidden">
+  <!-- decorative network/graph motif -->
+  <svg class="absolute right-[-6%] top-10 w-[560px] max-w-[80%] opacity-[0.13] dark:opacity-[0.16] pointer-events-none text-accent" viewBox="0 0 400 360" fill="none" aria-hidden="true">
+    <g stroke="currentColor" stroke-width="1">
+      <path d="M70 60 L200 40 M200 40 L330 90 M70 60 L150 170 M200 40 L150 170 M330 90 L300 220 M150 170 L300 220 M150 170 L110 300 M300 220 L210 320 M110 300 L210 320 M300 220 L360 290"/>
+    </g>
+    <g fill="currentColor">
+      <circle class="node" style="animation-delay:0s"   cx="70"  cy="60"  r="6"/>
+      <circle class="node" style="animation-delay:.6s"  cx="200" cy="40"  r="8"/>
+      <circle class="node" style="animation-delay:1.2s" cx="330" cy="90"  r="6"/>
+      <circle class="node" style="animation-delay:.4s"  cx="150" cy="170" r="9"/>
+      <circle class="node" style="animation-delay:1.6s" cx="300" cy="220" r="7"/>
+      <circle class="node" style="animation-delay:.9s"  cx="110" cy="300" r="6"/>
+      <circle class="node" style="animation-delay:2s"   cx="210" cy="320" r="5"/>
+      <circle class="node" style="animation-delay:1.3s" cx="360" cy="290" r="5"/>
+    </g>
+  </svg>
+
+  <div class="mx-auto max-w-6xl px-6 sm:px-8 pt-36 sm:pt-44 pb-20 sm:pb-28">
+    <p class="eyebrow text-accent rise" style="animation-delay:.05s">Ph.D. · Computer Science · IIT Delhi</p>
+
+    <h1 class="rise font-display font-light text-ink leading-[0.95] tracking-tight mt-5
+               text-[2.9rem] sm:text-7xl lg:text-[5.4rem]" style="animation-delay:.15s">
+      Sukriti Gupta
+    </h1>
+
+    <p class="rise max-w-2xl mt-7 text-xl sm:text-2xl leading-relaxed text-ink-soft" style="animation-delay:.28s">
+      I study the mathematics of doing things efficiently — designing
+      <span class="text-ink">approximation algorithms</span> for
+      <span class="text-ink">scheduling, resource allocation, and communication in networks</span>,
+      and proving how close to optimal we can provably get.
+    </p>
+
+    <div class="rise mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-ink-soft" style="animation-delay:.4s">
+      <span>Advised by <span class="text-ink">Prof.&nbsp;Amit&nbsp;Kumar</span> &amp; <span class="text-ink">Prof.&nbsp;Naveen&nbsp;Garg</span></span>
+      <span class="hidden sm:inline text-rule">/</span>
+      <span>Theoretical CS, IIT&nbsp;Delhi</span>
+      <span class="hidden sm:inline text-rule">/</span>
+      <span>New&nbsp;Delhi, India</span>
+    </div>
+
+    <!-- social row -->
+    <div class="rise mt-10 flex flex-wrap items-center gap-3" style="animation-delay:.52s">
+      <a href="mailto:sukritigupta@gmail.com" class="group inline-flex items-center gap-2 rounded-full bg-accent text-paper px-5 py-2.5 text-sm hover:opacity-90 transition">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        Email
+      </a>
+      <a href="https://www.linkedin.com/in/sukriti-gupta-iitd" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-rule px-5 py-2.5 text-sm text-ink hover:border-accent hover:text-accent transition">
+        LinkedIn
+      </a>
+      <a href="https://github.com/SukritiGupta" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-rule px-5 py-2.5 text-sm text-ink hover:border-accent hover:text-accent transition">
+        GitHub
+      </a>
+      <!-- TODO: replace # with your Google Scholar profile URL -->
+      <a href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-rule px-5 py-2.5 text-sm text-ink hover:border-accent hover:text-accent transition">
+        Google&nbsp;Scholar
+      </a>
+    </div>
+  </div>
+  <div class="mx-auto max-w-6xl px-6 sm:px-8"><div class="h-px bg-rule"></div></div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="mx-auto max-w-6xl px-6 sm:px-8 py-20 sm:py-28">
+  <div class="grid lg:grid-cols-[1fr_320px] gap-14 lg:gap-20">
+    <div class="reveal">
+      <p class="eyebrow text-accent mb-6">About</p>
+      <p class="dropcap text-lg sm:text-xl leading-relaxed text-ink/90">
+        Sukriti Gupta is a Ph.D. student in Computer Science and Engineering at IIT Delhi, advised by
+        Prof. Amit Kumar and Prof. Naveen Garg. Her research sits in theoretical computer science, where she
+        designs and analyzes <span class="text-accent">approximation algorithms</span> for scheduling, resource
+        allocation, and data movement in communication networks — the kind of problems where the optimum is
+        provably hard to reach, and the real question is how tight a guarantee one can prove.
+      </p>
+      <p class="mt-6 text-lg leading-relaxed text-ink-soft">
+        Before returning to research, she spent more than three years building production systems where the cost of a
+        slow algorithm is measured in microseconds. As a quantitative developer and systems engineer at
+        <span class="text-ink">AlphaGrep Securities</span> and <span class="text-ink">Tower Research Capital</span>, she
+        worked on low-latency C++ market-data and order-routing infrastructure, signal research, and high-throughput
+        trading systems across global exchanges. That experience left her with a performance-obsessed, rigorously
+        empirical instinct for algorithm design — a sense for what theory buys you in practice — that now sharpens the
+        questions she chooses to prove things about.
+      </p>
+      <p class="mt-6 text-lg leading-relaxed text-ink-soft">
+        She earned a dual B.Tech.&nbsp;+&nbsp;M.Tech. in Computer Science from IIT Delhi with a specialization in
+        theoretical computer science, and has taught algorithms, theory of computation, and computational geometry to
+        hundreds of students — earning an <span class="text-ink">Outstanding Teaching Assistant</span> award. Outside the
+        proofs, she mentors young women and visually impaired students preparing for higher education in STEM.
+      </p>
+    </div>
+
+    <!-- quick facts -->
+    <aside class="reveal lg:pt-12" style="transition-delay:.1s">
+      <div class="border border-rule rounded-2xl p-7 bg-surface/60">
+        <p class="eyebrow text-ink-soft mb-5">At a glance</p>
+        <dl class="space-y-5 text-sm">
+          <div>
+            <dt class="text-ink-soft">Position</dt>
+            <dd class="text-ink mt-0.5">Ph.D. Student, CSE — IIT Delhi <span class="text-ink-soft">(2025–)</span></dd>
+          </div>
+          <div>
+            <dt class="text-ink-soft">Area</dt>
+            <dd class="text-ink mt-0.5">Approximation Algorithms · Combinatorial Optimization</dd>
+          </div>
+          <div>
+            <dt class="text-ink-soft">Advisors</dt>
+            <dd class="text-ink mt-0.5">Amit Kumar · Naveen Garg</dd>
+          </div>
+          <div>
+            <dt class="text-ink-soft">Ph.D. GPA</dt>
+            <dd class="text-ink mt-0.5 font-mono">9.571 / 10.0</dd>
+          </div>
+          <div>
+            <dt class="text-ink-soft">Languages</dt>
+            <dd class="text-ink mt-0.5">English · Hindi · German <span class="text-ink-soft">(working)</span></dd>
+          </div>
+        </dl>
+        <a href="cv.pdf" class="mt-7 inline-flex items-center gap-2 text-sm text-accent link-u">
+          Download full CV
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= RESEARCH ================= -->
+<section id="research" class="bg-surface/50 border-y border-rule">
+  <div class="mx-auto max-w-6xl px-6 sm:px-8 py-20 sm:py-28">
+    <div class="reveal max-w-2xl">
+      <p class="eyebrow text-accent mb-5">Research Interests</p>
+      <h2 class="font-display font-light text-3xl sm:text-5xl tracking-tight text-ink leading-tight">
+        Provable efficiency for hard problems
+      </h2>
+      <p class="mt-6 text-lg text-ink-soft leading-relaxed">
+        My work is grounded in the design and analysis of algorithms with rigorous guarantees — turning
+        combinatorial problems that are NP-hard in general into solutions that come provably close to optimal.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px mt-14 bg-rule rounded-2xl overflow-hidden border border-rule">
+      <!-- card -->
+      <article class="reveal bg-paper p-8 group">
+        <div class="font-mono text-accent text-sm mb-4">01</div>
+        <h3 class="font-display text-xl text-ink mb-3">Approximation Algorithms</h3>
+        <p class="text-ink-soft leading-relaxed text-[0.97rem]">
+          Designing polynomial-time algorithms with worst-case guarantees for problems where computing the exact
+          optimum is intractable — and proving matching lower bounds.
+        </p>
+      </article>
+      <article class="reveal bg-paper p-8" style="transition-delay:.08s">
+        <div class="font-mono text-accent text-sm mb-4">02</div>
+        <h3 class="font-display text-xl text-ink mb-3">Scheduling &amp; Resource Allocation</h3>
+        <p class="text-ink-soft leading-relaxed text-[0.97rem]">
+          Minimizing makespan and coordinating shared, capacity-constrained resources — questions at the heart of how
+          systems use time and bandwidth well.
+        </p>
+      </article>
+      <article class="reveal bg-paper p-8" style="transition-delay:.16s">
+        <div class="font-mono text-accent text-sm mb-4">03</div>
+        <h3 class="font-display text-xl text-ink mb-3">Network &amp; Broadcast Algorithms</h3>
+        <p class="text-ink-soft leading-relaxed text-[0.97rem]">
+          Efficient data distribution over networks with heterogeneous, asymmetric capacities — including broadcast and
+          file-sharing in the hose model.
+        </p>
+      </article>
+      <article class="reveal bg-paper p-8" style="transition-delay:.08s">
+        <div class="font-mono text-accent text-sm mb-4">04</div>
+        <h3 class="font-display text-xl text-ink mb-3">Combinatorial &amp; Integer Optimization</h3>
+        <p class="text-ink-soft leading-relaxed text-[0.97rem]">
+          Linear and integer programming relaxations, rounding, and structural arguments as tools for tight
+          algorithmic guarantees.
+        </p>
+      </article>
+      <article class="reveal bg-paper p-8" style="transition-delay:.16s">
+        <div class="font-mono text-accent text-sm mb-4">05</div>
+        <h3 class="font-display text-xl text-ink mb-3">Algorithms under Uncertainty</h3>
+        <p class="text-ink-soft leading-relaxed text-[0.97rem]">
+          Online and competitive analysis — decision-making when the input arrives over time and the future is unknown.
+        </p>
+      </article>
+      <article class="reveal bg-paper p-8 flex flex-col justify-center" style="transition-delay:.24s">
+        <p class="text-ink-soft leading-relaxed text-[0.97rem]">
+          Interested in collaborating or discussing a problem in any of these areas?
+        </p>
+        <a href="#contact" class="mt-3 text-accent link-u inline-flex items-center gap-1.5 w-fit">
+          Get in touch
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PUBLICATIONS ================= -->
+<section id="publications" class="mx-auto max-w-6xl px-6 sm:px-8 py-20 sm:py-28">
+  <div class="reveal flex items-end justify-between flex-wrap gap-4 mb-12">
+    <div>
+      <p class="eyebrow text-accent mb-5">Publications</p>
+      <h2 class="font-display font-light text-3xl sm:text-5xl tracking-tight text-ink">Selected Work</h2>
+    </div>
+    <!-- TODO: replace with your Google Scholar URL -->
+    <a href="#" class="text-sm text-accent link-u inline-flex items-center gap-1.5">View all on Google Scholar
+      <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M9 7h8v8"/></svg>
+    </a>
+  </div>
+
+  <article class="reveal border-t border-rule pt-8 grid lg:grid-cols-[120px_1fr] gap-6 lg:gap-10">
+    <div class="font-mono text-sm text-accent">
+      FSTTCS<br><span class="text-ink-soft">2025</span>
+    </div>
+    <div>
+      <h3 class="font-display text-2xl sm:text-3xl text-ink leading-snug">
+        Approximating Optimal Broadcast of Files in a Hose-Model Network
+      </h3>
+      <p class="mt-2 text-ink-soft">
+        Sukriti Gupta. <span class="italic">Foundations of Software Technology and Theoretical Computer Science (FSTTCS), 2025.</span>
+      </p>
+
+      <div class="mt-5 text-ink-soft leading-relaxed space-y-4 max-w-3xl">
+        <p>
+          We study how to broadcast a file among nodes with <span class="text-ink">arbitrary, asymmetric upload and
+          download capacities</span> in a hose-model network, minimizing the time (makespan) by which every node finishes
+          receiving the file — under both migratory and non-migratory routing settings.
+        </p>
+        <p>
+          For the <span class="text-ink">migratory</span> model, a novel integer-programming formulation yields a schedule
+          with makespan
+          <span class="font-mono text-ink whitespace-nowrap">(e&#8201;/&#8201;(e&minus;1))·OPT&nbsp;+&nbsp;P</span>,
+          where <span class="font-mono">P</span> is the time the slowest peer needs to download the file. For the
+          <span class="text-ink">non-migratory</span> model — known to be NP-hard — we give a schedule of makespan
+          <span class="font-mono text-ink whitespace-nowrap">18·OPT&nbsp;+&nbsp;P</span>, the
+          <span class="text-ink">first approximation algorithm</span> for the heterogeneous, asymmetric setting.
+        </p>
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-2.5">
+        <!-- TODO: link to the paper PDF / proceedings -->
+        <a href="#" class="inline-flex items-center gap-1.5 eyebrow border border-rule rounded-full px-4 py-1.5 text-ink hover:bg-accent hover:text-paper hover:border-accent transition">Paper</a>
+        <a href="#" class="inline-flex items-center gap-1.5 eyebrow border border-rule rounded-full px-4 py-1.5 text-ink hover:bg-accent hover:text-paper hover:border-accent transition">BibTeX</a>
+        <span class="inline-flex items-center gap-1.5 eyebrow rounded-full px-4 py-1.5 text-ink-soft">Algorithms · Networks · Scheduling</span>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience" class="bg-surface/50 border-y border-rule">
+  <div class="mx-auto max-w-6xl px-6 sm:px-8 py-20 sm:py-28">
+    <p class="reveal eyebrow text-accent mb-5">Experience</p>
+    <h2 class="reveal font-display font-light text-3xl sm:text-5xl tracking-tight text-ink mb-14">
+      Research, systems &amp; industry
+    </h2>
+
+    <div class="space-y-0">
+      <!-- entry template -->
+      <div class="reveal grid sm:grid-cols-[180px_1fr] gap-2 sm:gap-10 py-7 border-t border-rule">
+        <div class="font-mono text-sm text-ink-soft pt-1">2025 — Present</div>
+        <div>
+          <h3 class="font-display text-xl text-ink">Doctoral Researcher · <span class="text-accent">IIT Delhi</span></h3>
+          <p class="text-ink-soft mt-1.5 leading-relaxed">
+            Theoretical computer science: approximation algorithms for scheduling, resource allocation, and network
+            broadcast. Advised by Prof. Amit Kumar and Prof. Naveen Garg.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal grid sm:grid-cols-[180px_1fr] gap-2 sm:gap-10 py-7 border-t border-rule">
+        <div class="font-mono text-sm text-ink-soft pt-1">2023 — 2024</div>
+        <div>
+          <h3 class="font-display text-xl text-ink">Quantitative Developer · <span class="text-accent">AlphaGrep Securities</span></h3>
+          <p class="text-xs font-mono text-ink-soft mt-1">Singapore</p>
+          <p class="text-ink-soft mt-1.5 leading-relaxed">
+            Scaled index-options market-making strategies on the NSE and expanded coverage to the BSE. Researched alpha
+            generation, signal construction, and market microstructure.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal grid sm:grid-cols-[180px_1fr] gap-2 sm:gap-10 py-7 border-t border-rule">
+        <div class="font-mono text-sm text-ink-soft pt-1">2021 — 2023</div>
+        <div>
+          <h3 class="font-display text-xl text-ink">Trading Systems &amp; HFT Infrastructure · <span class="text-accent">AlphaGrep Securities</span></h3>
+          <p class="text-xs font-mono text-ink-soft mt-1">Bengaluru · Analyst → Senior Analyst → Associate</p>
+          <p class="text-ink-soft mt-1.5 leading-relaxed">
+            Specialized in low-latency C++ for market-data adapters and order-routing systems across multiple crypto
+            exchanges. Reverse-engineered exchange protocols and inefficiencies to build a measurable trading edge.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal grid sm:grid-cols-[180px_1fr] gap-2 sm:gap-10 py-7 border-t border-rule">
+        <div class="font-mono text-sm text-ink-soft pt-1">2019</div>
+        <div>
+          <h3 class="font-display text-xl text-ink">Core Engineering Intern · <span class="text-accent">Tower Research Capital</span></h3>
+          <p class="text-xs font-mono text-ink-soft mt-1">Gurgaon · Risk Management</p>
+          <p class="text-ink-soft mt-1.5 leading-relaxed">
+            Built a multi-threaded profiling tool, analyzed market logs to surface data-pipeline issues, and set up
+            regression and benchmarking of proprietary tools on a Jenkins CI pipeline.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal grid sm:grid-cols-[180px_1fr] gap-2 sm:gap-10 py-7 border-t border-b border-rule">
+        <div class="font-mono text-sm text-ink-soft pt-1">2018</div>
+        <div>
+          <h3 class="font-display text-xl text-ink">Research Intern · <span class="text-accent">EPFL — Processor Architecture Lab</span></h3>
+          <p class="text-xs font-mono text-ink-soft mt-1">Lausanne, Switzerland · w/ Prof. Paolo Ienne</p>
+          <p class="text-ink-soft mt-1.5 leading-relaxed">
+            Extended a dynamic high-level synthesis tool on the LLVM/Clang framework — implementing custom pragma
+            handling and passing information across front-end, back-end, and pre-processing stages.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TEACHING ================= -->
+<section id="teaching" class="mx-auto max-w-6xl px-6 sm:px-8 py-20 sm:py-28">
+  <div class="grid lg:grid-cols-[1fr_1fr] gap-14 lg:gap-20">
+    <div class="reveal">
+      <p class="eyebrow text-accent mb-5">Teaching</p>
+      <h2 class="font-display font-light text-3xl sm:text-5xl tracking-tight text-ink leading-tight">
+        In the classroom
+      </h2>
+      <p class="mt-6 text-lg text-ink-soft leading-relaxed">
+        Teaching theory well is its own discipline. As a teaching assistant at IIT Delhi and on NPTEL, I've helped
+        students work through the core of theoretical computer science — from automata to advanced algorithms.
+      </p>
+      <div class="mt-7 inline-flex items-center gap-3 rounded-xl border border-accent/40 bg-accent/5 px-5 py-4">
+        <svg class="h-6 w-6 text-accent shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="M3 7v6m18-6v6M7 9.5V15c0 1 2.2 2.5 5 2.5s5-1.5 5-2.5V9.5"/></svg>
+        <p class="text-sm text-ink"><span class="text-accent font-medium">Outstanding Teaching Assistant</span> — Analysis &amp; Design of Algorithms, Fall&nbsp;2025</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:.1s">
+      <ul class="divide-y divide-rule border-y border-rule">
+        <li class="py-5 flex items-baseline justify-between gap-4">
+          <div>
+            <p class="text-ink font-display text-lg">Analysis &amp; Design of Algorithms</p>
+            <p class="text-sm text-ink-soft">COL351 · IIT Delhi</p>
+          </div>
+          <span class="font-mono text-xs text-ink-soft whitespace-nowrap">Fall 2020, 2025</span>
+        </li>
+        <li class="py-5 flex items-baseline justify-between gap-4">
+          <div>
+            <p class="text-ink font-display text-lg">Theory of Computation</p>
+            <p class="text-sm text-ink-soft">COL352 · IIT Delhi</p>
+          </div>
+          <span class="font-mono text-xs text-ink-soft whitespace-nowrap">Winter 2021</span>
+        </li>
+        <li class="py-5 flex items-baseline justify-between gap-4">
+          <div>
+            <p class="text-ink font-display text-lg">Computational Geometry</p>
+            <p class="text-sm text-ink-soft">NPTEL · w/ Prof. Amit Kumar</p>
+          </div>
+          <span class="font-mono text-xs text-ink-soft whitespace-nowrap">2020, 2021</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AWARDS + EDUCATION ================= -->
+<section class="bg-surface/50 border-y border-rule">
+  <div class="mx-auto max-w-6xl px-6 sm:px-8 py-20 sm:py-28 grid lg:grid-cols-2 gap-16 lg:gap-24">
+
+    <!-- Honors -->
+    <div class="reveal">
+      <p class="eyebrow text-accent mb-6">Honors &amp; Awards</p>
+      <ul class="space-y-5">
+        <li class="flex gap-4">
+          <span class="font-mono text-xs text-accent pt-1.5">2016</span>
+          <p class="text-ink leading-relaxed">
+            <span class="text-ink">All-India CBSE Topper, Class XII</span> — highest marks (99.4%) among more than
+            1.2&nbsp;million candidates nationwide.
+          </p>
+        </li>
+        <li class="flex gap-4">
+          <span class="font-mono text-xs text-accent pt-1.5">2015</span>
+          <p class="text-ink-soft leading-relaxed"><span class="text-ink">KVPY Fellow</span> — Dept. of Science &amp; Technology, Govt. of India.</p>
+        </li>
+        <li class="flex gap-4">
+          <span class="font-mono text-xs text-accent pt-1.5">2014</span>
+          <p class="text-ink-soft leading-relaxed"><span class="text-ink">NTSE Scholar</span> (NCERT) &amp; <span class="text-ink">JSTSE</span> Scholar (2012, DoE Delhi).</p>
+        </li>
+        <li class="flex gap-4">
+          <span class="font-mono text-xs text-accent pt-1.5">2020</span>
+          <p class="text-ink-soft leading-relaxed">Selected for the <span class="text-ink">25th Estonian Winter School in CS</span>, with scholarship from TalTech &amp; IIT Delhi.</p>
+        </li>
+        <li class="flex gap-4">
+          <span class="font-mono text-xs text-accent pt-1.5">2018</span>
+          <p class="text-ink-soft leading-relaxed">Selected for semester exchange to the <span class="text-ink">University of Waterloo</span>, Canada.</p>
+        </li>
+        <li class="flex gap-4">
+          <span class="font-mono text-xs text-accent pt-1.5">—</span>
+          <p class="text-ink-soft leading-relaxed"><span class="text-ink">IIT Delhi Merit Award</span> — awarded for placing in the top 7% of students.</p>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Education + service -->
+    <div class="reveal" style="transition-delay:.1s">
+      <p class="eyebrow text-accent mb-6">Education</p>
+      <div class="space-y-6">
+        <div class="border-l-2 border-accent/40 pl-5">
+          <p class="font-display text-lg text-ink">Ph.D., Computer Science &amp; Engineering</p>
+          <p class="text-sm text-ink-soft">IIT Delhi · 2025 – present · GPA 9.571/10</p>
+        </div>
+        <div class="border-l-2 border-rule pl-5">
+          <p class="font-display text-lg text-ink">B.Tech. + M.Tech., Computer Science</p>
+          <p class="text-sm text-ink-soft">IIT Delhi · 2016 – 2021 · Spl. in Theoretical CS · GPA 9.306/10</p>
+        </div>
+      </div>
+
+      <p class="eyebrow text-accent mt-12 mb-6">Service &amp; Outreach</p>
+      <ul class="space-y-4 text-ink-soft leading-relaxed">
+        <li class="flex gap-3"><span class="text-accent mt-1">›</span> Teaches mathematics and data structures to young women from underprivileged backgrounds, originally through the SheCodes Foundation.</li>
+        <li class="flex gap-3"><span class="text-accent mt-1">›</span> Mentors visually impaired students on JEE preparation and career guidance.</li>
+        <li class="flex gap-3"><span class="text-accent mt-1">›</span> Former Vice Captain of the IIT Delhi Aquatics Team and mentor to first-year undergraduates.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="mx-auto max-w-6xl px-6 sm:px-8 py-24 sm:py-32">
+  <div class="reveal max-w-3xl">
+    <p class="eyebrow text-accent mb-6">Contact</p>
+    <h2 class="font-display font-light text-4xl sm:text-6xl tracking-tight text-ink leading-[1.02]">
+      Let's talk algorithms.
+    </h2>
+    <p class="mt-6 text-lg text-ink-soft leading-relaxed max-w-2xl">
+      I'm always glad to discuss research problems, collaborations, or teaching. The fastest way to reach me is email.
+    </p>
+    <div class="mt-9 flex flex-wrap items-center gap-3">
+      <a href="mailto:sukritigupta@gmail.com" class="inline-flex items-center gap-2 rounded-full bg-accent text-paper px-6 py-3 hover:opacity-90 transition">
+        sukritigupta@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/sukriti-gupta-iitd" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-rule px-6 py-3 text-ink hover:border-accent hover:text-accent transition">LinkedIn</a>
+      <a href="https://github.com/SukritiGupta" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-rule px-6 py-3 text-ink hover:border-accent hover:text-accent transition">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t border-rule">
+  <div class="mx-auto max-w-6xl px-6 sm:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-ink-soft">
+    <p class="font-display text-ink">Sukriti Gupta</p>
+    <p class="font-mono text-xs">© <span id="year"></span> · IIT Delhi · New Delhi, India</p>
+    <a href="#top" class="link-u hover:text-accent transition">Back to top ↑</a>
+  </div>
+</footer>
+
+</div><!-- /z-2 -->
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+  // --- Theme: default to OS preference, persist if available ---
+  (function () {
+    var root = document.documentElement;
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (stored === 'dark' || (!stored && prefersDark)) root.classList.add('dark');
+
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      root.classList.toggle('dark');
+      try { localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
+    });
+  })();
+
+  // --- Nav background + rule on scroll ---
+  var nav = document.getElementById('nav');
+  var navrule = document.getElementById('navrule');
+  function onScroll() {
+    if (window.scrollY > 24) {
+      nav.classList.add('bg-paper/85', 'backdrop-blur-md');
+      navrule.style.transform = 'scaleX(1)';
+    } else {
+      nav.classList.remove('bg-paper/85', 'backdrop-blur-md');
+      navrule.style.transform = 'scaleX(0)';
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // --- Reveal on scroll ---
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  // --- Year ---
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
